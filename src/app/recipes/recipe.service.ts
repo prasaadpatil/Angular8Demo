@@ -9,17 +9,23 @@ export class RecipeService {
     recipesChanged = new Subject<Recipe[]>();
     recipeSelected = new Subject<Recipe>();
 
-    private recipes: Recipe[] = [
-        new Recipe('A test recipe',
-            'test desc',
-            'https://cdn.pixabay.com/photo/2017/08/08/09/44/food-photography-2610863_960_720.jpg',
-            [
-                new Ingredient('Meat', 1),
-                new Ingredient('French fries', 20),
-            ])
-    ];
+    // private recipes: Recipe[] = [
+    //     new Recipe('A test recipe',
+    //         'test desc',
+    //         'https://cdn.pixabay.com/photo/2017/08/08/09/44/food-photography-2610863_960_720.jpg',
+    //         [
+    //             new Ingredient('Meat', 1),
+    //             new Ingredient('French fries', 20),
+    //         ])
+    // ];
+    private recipes: Recipe[] = [];
 
     constructor(private slService: ShoppingListService) { }
+
+    setRecipes(recipes: Recipe[]) {
+        this.recipes = recipes;
+        this.recipesChanged.next(this.recipes.slice());
+    }
 
     getRecipes() {
         return this.recipes.slice();
@@ -43,7 +49,7 @@ export class RecipeService {
         this.recipesChanged.next(this.recipes.slice());
     }
 
-    deleteRecipe(index: number){
+    deleteRecipe(index: number) {
         this.recipes.splice(index, 1);
         this.recipesChanged.next(this.recipes.slice());
     }
